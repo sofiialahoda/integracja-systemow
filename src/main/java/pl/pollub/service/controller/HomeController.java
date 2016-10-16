@@ -39,12 +39,12 @@ public class HomeController {
     @RequestMapping(value = "/destroy", method = RequestMethod.GET)
     public String destroy() {
         repository.deleteAll();
-        return "redirect:/";
+        return "redirect:/players";
     }
 
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     public String init() {
         databaseSaver.init();
-        return "redirect:/";
+        return "redirect:/players";
     }
 }
