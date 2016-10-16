@@ -9,13 +9,10 @@ import pl.pollub.service.model.Movie;
 import pl.pollub.service.repository.MovieRepository;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
-import java.util.Scanner;
-import java.util.function.Consumer;
 
 @Component
 public class ImdbFetcher {
@@ -73,12 +70,5 @@ public class ImdbFetcher {
                 logger.warn("Skipped: {}", id);
             }
         });
-        URL location = getClass().getClassLoader().getResource("ids.log");
-        if (location != null) {
-            File resource = new File(location.toURI());
-            Scanner scanner = new Scanner(resource);
-            while (scanner.hasNext()) {
-            }
-        }
     }
 }
