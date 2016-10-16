@@ -27,7 +27,7 @@ public class DatabaseSaver {
     public void init() {
         try {
             for (int year = fromYear; year <= toYear; year += 4) {
-                URL location = getClass().getClassLoader().getResource(year + ".json");
+                URL location = getClass().getClassLoader().getResource("feeds/" + year + ".json");
                 if (location != null) {
                     File resource = new File(location.toURI());
                     List<PlayerDTO> players = mapper.readValue(resource, mapper.getTypeFactory().constructCollectionType(List.class, PlayerDTO.class));
