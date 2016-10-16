@@ -13,9 +13,7 @@ import pl.pollub.service.repository.PlayerRepository;
 
 import java.io.File;
 import java.net.URL;
-import java.util.HashSet;
 import java.util.List;
-import java.util.function.Consumer;
 
 @Component
 class DatabaseSaver implements ApplicationListener<ApplicationReadyEvent> {
@@ -28,17 +26,9 @@ class DatabaseSaver implements ApplicationListener<ApplicationReadyEvent> {
     private final int fromYear = 1930;
     private final int toYear = 2004;
 
-    private final HashSet<String> set = new HashSet<>();
-
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        if (isDatabaseNotInitialized()) {
-            init();
-        }
-    }
-
-    private boolean isDatabaseNotInitialized() {
-        return repository.count() == 0;
+        init();
     }
 
     private void init() {
@@ -48,15 +38,12 @@ class DatabaseSaver implements ApplicationListener<ApplicationReadyEvent> {
                 if (location != null) {
                     File resource = new File(location.toURI());
                     List<PlayerDTO> players = mapper.readValue(resource, mapper.getTypeFactory().constructCollectionType(List.class, PlayerDTO.class));
-                    players.forEach(new Consumer<PlayerDTO>() {
-                        @Override
-                        public void accept(PlayerDTO playerDto) {
-                            try {
-                                Player player = convert(playerDto);
-                                repository.save(player);
-                            } catch (Exception e) {
-                                logger.error("{} object has invalid fields. Let's skip it. :)", playerDto);
-                            }
+                    players.forEach(playerDto -> {
+                        try {
+                            Player player = convert(playerDto);
+                            repository.save(player);
+                        } catch (Exception e) {
+                            logger.error("{} object has invalid fields. Let's skip it. :)", playerDto);
                         }
                     });
                 }
