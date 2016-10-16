@@ -35,12 +35,12 @@ public class HomeController {
     @RequestMapping(value = "/destroy", method = RequestMethod.GET)
     public String destroy() {
         fetcher.destroy();
-        return "redirect:/players";
+        return "redirect:/movies";
     }
 
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     public String init() throws Exception {
         fetcher.push();
-        return "redirect:/players";
+        return "redirect:/movies";
     }
 }
