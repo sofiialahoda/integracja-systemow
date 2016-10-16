@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import pl.pollub.service.model.Player;
 import pl.pollub.service.model.PlayerDTO;
@@ -16,7 +14,7 @@ import java.net.URL;
 import java.util.List;
 
 @Component
-class DatabaseSaver implements ApplicationListener<ApplicationReadyEvent> {
+public class DatabaseSaver {
 
     @Autowired
     private PlayerRepository repository;
@@ -26,12 +24,7 @@ class DatabaseSaver implements ApplicationListener<ApplicationReadyEvent> {
     private final int fromYear = 1930;
     private final int toYear = 2004;
 
-    @Override
-    public void onApplicationEvent(ApplicationReadyEvent event) {
-        init();
-    }
-
-    private void init() {
+    public void init() {
         try {
             for (int year = fromYear; year <= toYear; year += 4) {
                 URL location = getClass().getClassLoader().getResource(year + ".json");
@@ -48,7 +41,6 @@ class DatabaseSaver implements ApplicationListener<ApplicationReadyEvent> {
                     });
                 }
             }
-            System.out.println(repository.count());
         } catch (Exception e) {
             logger.error("Database initialization has been failed.", e);
         }
