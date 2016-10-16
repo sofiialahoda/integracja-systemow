@@ -1,6 +1,8 @@
 package pl.pollub.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.pollub.service.model.Movie;
@@ -11,7 +13,9 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 @Component
 public class ImdbFetcher {
@@ -19,6 +23,27 @@ public class ImdbFetcher {
     @Autowired
     private MovieRepository repository;
     private final ObjectMapper mapper = new ObjectMapper();
+    private final Logger logger = LoggerFactory.getLogger(ImdbFetcher.class);
+
+    private final String[] ids = {
+            "1527186",
+            "1527835",
+            "1528071",
+            "1528100",
+            "1528224",
+            "1528750",
+            "1528854",
+            "1529307",
+            "1529572",
+            "1530509",
+            "1530975",
+            "1530983",
+            "1531663",
+            "1531901",
+            "1531924",
+            "1531930"
+    };
+
 
     public void destroy() {
         repository.deleteAll();
@@ -39,15 +64,20 @@ public class ImdbFetcher {
     }
 
     public void push() throws Exception {
+        Arrays.stream(ids).forEach(id -> {
+            try {
+                String json = fetch(id);
+                Movie movie = mapper.readValue(json, Movie.class);
+                repository.save(movie);
+            } catch (Exception e) {
+                logger.warn("Skipped: {}", id);
+            }
+        });
         URL location = getClass().getClassLoader().getResource("ids.log");
         if (location != null) {
             File resource = new File(location.toURI());
             Scanner scanner = new Scanner(resource);
             while (scanner.hasNext()) {
-                String id = scanner.nextLine();
-                String json = fetch(id);
-                Movie movie = mapper.readValue(json, Movie.class);
-                repository.save(movie);
             }
         }
     }
