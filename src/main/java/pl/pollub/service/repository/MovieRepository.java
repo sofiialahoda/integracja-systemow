@@ -2,8 +2,8 @@ package pl.pollub.service.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import pl.pollub.service.model.Player;
+import pl.pollub.service.model.Movie;
 
 @Repository
-public interface PlayerRepository extends CrudRepository<Player, Long> {
+public interface MovieRepository extends CrudRepository<Movie, String> {
 }

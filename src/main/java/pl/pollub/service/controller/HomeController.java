@@ -19,17 +19,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import pl.pollub.service.DatabaseSaver;
-import pl.pollub.service.repository.PlayerRepository;
+import pl.pollub.service.ImdbFetcher;
 
 @Controller
 public class HomeController {
 
     @Autowired
-    private DatabaseSaver databaseSaver;
-
-    @Autowired
-    private PlayerRepository repository;
+    private ImdbFetcher fetcher;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home() {
@@ -38,13 +34,13 @@ public class HomeController {
 
     @RequestMapping(value = "/destroy", method = RequestMethod.GET)
     public String destroy() {
-        repository.deleteAll();
+        fetcher.destroy();
         return "redirect:/players";
     }
 
     @RequestMapping(value = "/init", method = RequestMethod.GET)
-    public String init() {
-        databaseSaver.init();
+    public String init() throws Exception {
+        fetcher.push();
         return "redirect:/players";
     }
 }
