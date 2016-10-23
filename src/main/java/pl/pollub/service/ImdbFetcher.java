@@ -28,12 +28,14 @@ public class ImdbFetcher {
             Scanner scanner = new Scanner(new URL(idsPath).openStream());
             while (scanner.hasNext()) {
                 String id = scanner.nextLine();
+                Movie movie = null;
                 try {
                     String json = fetch(id);
-                    Movie movie = mapper.readValue(json, Movie.class);
+                    movie = mapper.readValue(json, Movie.class);
                     repository.save(movie);
                 } catch (Exception e) {
-                    logger.warn("Skipped: {}", id);
+                    e.printStackTrace();
+                    logger.warn("Skipped: {}. Movie: {}.", id, movie);
                 }
             }
         } catch (Exception e) {

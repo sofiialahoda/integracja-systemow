@@ -2,6 +2,7 @@ package pl.pollub.service.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -22,10 +23,12 @@ public class Movie {
     private String genre;
     @JsonProperty(value = "Director")
     private String director;
+    @Column(length = 100500)
     @JsonProperty(value = "Writer")
     private String writer;
     @JsonProperty(value = "Actors")
     private String actors;
+    @Column(length = 100500)
     @JsonProperty(value = "Plot")
     private String plot;
     @JsonProperty(value = "Language")
@@ -37,9 +40,9 @@ public class Movie {
     @JsonProperty(value = "Poster")
     private String poster;
     @JsonProperty(value = "Metascore")
-    private int metascore;
+    private String metascore;
     @JsonProperty(value = "imdbRating")
-    private double imdbRating;
+    private String imdbRating;
     @JsonProperty(value = "imdbVotes")
     private String imdbVotes;
     @Id
@@ -162,19 +165,19 @@ public class Movie {
         this.poster = poster;
     }
 
-    public int getMetascore() {
+    public String getMetascore() {
         return metascore;
     }
 
-    public void setMetascore(int metascore) {
+    public void setMetascore(String metascore) {
         this.metascore = metascore;
     }
 
-    public double getImdbRating() {
+    public String getImdbRating() {
         return imdbRating;
     }
 
-    public void setImdbRating(double imdbRating) {
+    public void setImdbRating(String imdbRating) {
         this.imdbRating = imdbRating;
     }
 
@@ -208,5 +211,31 @@ public class Movie {
 
     public void setResponse(boolean response) {
         this.response = response;
+    }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "title='" + title + '\'' +
+                ", year=" + year +
+                ", rated='" + rated + '\'' +
+                ", released='" + released + '\'' +
+                ", runtime='" + runtime + '\'' +
+                ", genre='" + genre + '\'' +
+                ", director='" + director + '\'' +
+                ", writer='" + writer + '\'' +
+                ", actors='" + actors + '\'' +
+                ", plot='" + plot + '\'' +
+                ", language='" + language + '\'' +
+                ", county='" + county + '\'' +
+                ", awards='" + awards + '\'' +
+                ", poster='" + poster + '\'' +
+                ", metascore=" + metascore +
+                ", imdbRating=" + imdbRating +
+                ", imdbVotes='" + imdbVotes + '\'' +
+                ", imdbId='" + imdbId + '\'' +
+                ", type='" + type + '\'' +
+                ", response=" + response +
+                '}';
     }
 }
