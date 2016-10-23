@@ -9,10 +9,12 @@ import pl.pollub.service.model.Movie;
 import pl.pollub.service.repository.MovieRepository;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
-import java.util.Arrays;
+import java.util.Scanner;
 
 @Component
 public class ImdbFetcher {
@@ -22,31 +24,26 @@ public class ImdbFetcher {
     private final ObjectMapper mapper = new ObjectMapper();
     private final Logger logger = LoggerFactory.getLogger(ImdbFetcher.class);
 
-    private final String[] ids = {
-            "1527186",
-            "1527835",
-            "1528071",
-            "1528100",
-            "1528224",
-            "1528750",
-            "1528854",
-            "1529307",
-            "1529572",
-            "1530509",
-            "1530975",
-            "1530983",
-            "1531663",
-            "1531901",
-            "1531924",
-            "1531930"
-    };
-
-
-    public void destroy() {
-        repository.deleteAll();
+    public void push() {
+        try {
+            URI path = getClass().getClassLoader().getResource("ids.file").toURI();
+            Scanner scanner = new Scanner(new File(path));
+            while (scanner.hasNext()) {
+                String id = scanner.nextLine();
+                try {
+                    String json = fetch(id);
+                    Movie movie = mapper.readValue(json, Movie.class);
+                    repository.save(movie);
+                } catch (Exception e) {
+                    logger.warn("Skipped: {}", id);
+                }
+            }
+        } catch (Exception e) {
+            logger.error("Can't read ids file. Reason: {}.", e.getMessage());
+        }
     }
 
-    public String fetch(String imdbId) throws Exception {
+    private String fetch(String imdbId) throws Exception {
         String url = "http://www.omdbapi.com/?i=tt" + imdbId + "&plot=full&r=json";
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -58,17 +55,5 @@ public class ImdbFetcher {
         }
         in.close();
         return response.toString();
-    }
-
-    public void push() throws Exception {
-        Arrays.stream(ids).forEach(id -> {
-            try {
-                String json = fetch(id);
-                Movie movie = mapper.readValue(json, Movie.class);
-                repository.save(movie);
-            } catch (Exception e) {
-                logger.warn("Skipped: {}", id);
-            }
-        });
     }
 }
