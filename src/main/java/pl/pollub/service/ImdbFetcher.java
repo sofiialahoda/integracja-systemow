@@ -9,10 +9,8 @@ import pl.pollub.service.model.Movie;
 import pl.pollub.service.repository.MovieRepository;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -23,11 +21,11 @@ public class ImdbFetcher {
     private MovieRepository repository;
     private final ObjectMapper mapper = new ObjectMapper();
     private final Logger logger = LoggerFactory.getLogger(ImdbFetcher.class);
+    private final String idsPath = "https://raw.githubusercontent.com/rdzhadan/integracja-systemow/master/src/main/resources/ids.file";
 
     public void push() {
         try {
-            URI path = getClass().getClassLoader().getResource("ids.file").toURI();
-            Scanner scanner = new Scanner(new File(path));
+            Scanner scanner = new Scanner(new URL(idsPath).openStream());
             while (scanner.hasNext()) {
                 String id = scanner.nextLine();
                 try {
