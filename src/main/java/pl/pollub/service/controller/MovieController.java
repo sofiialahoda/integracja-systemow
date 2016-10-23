@@ -23,6 +23,12 @@ public class MovieController {
         return repository.findAll();
     }
 
+    @RequestMapping("/movies/destroy")
+    public String destroy() {
+        repository.deleteAll();
+        return "redirect:/movies";
+    }
+
     @RequestMapping("/movies/count")
     public long moviesCount() {
         return repository.count();
