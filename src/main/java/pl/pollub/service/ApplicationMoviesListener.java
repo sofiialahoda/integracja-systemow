@@ -24,21 +24,23 @@ public class ApplicationMoviesListener implements ApplicationListener<Applicatio
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
-        try {
-            InputStream stream = getClass().getClassLoader().getResourceAsStream("ids.file");
-            Scanner scanner = new Scanner(stream);
-            while (scanner.hasNext()) {
-                String id = scanner.nextLine();
-                try {
-                    String json = fetch(id);
-                    Movie movie = mapper.readValue(json, Movie.class);
-                    repository.save(movie);
-                } catch (Exception e) {
-                    e.printStackTrace();
+        if (repository.count() == 0) {
+            try {
+                InputStream stream = getClass().getClassLoader().getResourceAsStream("ids.file");
+                Scanner scanner = new Scanner(stream);
+                while (scanner.hasNext()) {
+                    String id = scanner.nextLine();
+                    try {
+                        String json = fetch(id);
+                        Movie movie = mapper.readValue(json, Movie.class);
+                        repository.save(movie);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

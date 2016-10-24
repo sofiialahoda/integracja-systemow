@@ -32,6 +32,7 @@ public class MovieController {
                                       @RequestParam(required = false) String order,
                                       @RequestParam(required = false) Integer page,
                                       @RequestParam(required = false) Integer size) {
+
         Sort sort = new Sort(Sort.Direction.fromString(direction), order);
         Pageable pageable = new PageRequest(page, size, sort);
         return new MovieList(repository.findAll(pageable).getContent());
