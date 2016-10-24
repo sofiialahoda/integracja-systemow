@@ -5,51 +5,94 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.xml.bind.annotation.*;
+import java.io.Serializable;
 
+@XmlRootElement(name = "movie")
+@XmlAccessorType(XmlAccessType.NONE)
 @Entity
-public class Movie {
+public class Movie implements Serializable {
 
+    @XmlElement
     @JsonProperty(value = "Title")
     private String title;
+
+    @XmlElement
     @JsonProperty(value = "Year")
     private int year;
+
+    @XmlElement
     @JsonProperty(value = "Rated")
     private String rated;
+
+    @XmlElement
     @JsonProperty(value = "Released")
     private String released;
+
+    @XmlElement
     @JsonProperty(value = "Runtime")
     private String runtime;
+
+    @XmlElement
     @JsonProperty(value = "Genre")
     private String genre;
+
+    @XmlElement
     @JsonProperty(value = "Director")
     private String director;
+
     @Column(length = 100500)
+    @XmlElement
     @JsonProperty(value = "Writer")
     private String writer;
+
+    @XmlElement
     @JsonProperty(value = "Actors")
     private String actors;
+
     @Column(length = 100500)
+    @XmlElement
     @JsonProperty(value = "Plot")
     private String plot;
+
+    @XmlElement
     @JsonProperty(value = "Language")
     private String language;
+
+    @XmlElement
     @JsonProperty(value = "Country")
     private String county;
+
+    @XmlElement
     @JsonProperty(value = "Awards")
     private String awards;
+
+    @XmlElement
     @JsonProperty(value = "Poster")
     private String poster;
+
+    @XmlElement
     @JsonProperty(value = "Metascore")
     private String metascore;
+
+    @XmlElement
     @JsonProperty(value = "imdbRating")
     private String imdbRating;
+
+    @XmlElement
     @JsonProperty(value = "imdbVotes")
     private String imdbVotes;
+
     @Id
+    @XmlAttribute
     @JsonProperty(value = "imdbID")
     private String imdbId;
+
+    @XmlElement
     @JsonProperty(value = "Type")
     private String type;
+
+    @XmlElement
     @JsonProperty(value = "Response")
     private boolean response;
 

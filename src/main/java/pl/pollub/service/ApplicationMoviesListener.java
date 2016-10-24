@@ -43,7 +43,7 @@ public class ApplicationMoviesListener implements ApplicationListener<Applicatio
     }
 
     private String fetch(String imdbId) throws Exception {
-        String url = "http://www.omdbapi.com/?i=" + imdbId + "&plot=full&r=json";
+        String url = "http://www.omdbapi.com/?i=tt" + imdbId + "&plot=full&r=json";
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
