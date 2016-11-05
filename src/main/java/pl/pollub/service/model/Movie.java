@@ -19,7 +19,7 @@ public class Movie implements Serializable {
 
     @XmlElement
     @JsonProperty(value = "Year")
-    private int year;
+    private String year;
 
     @XmlElement
     @JsonProperty(value = "Rated")
@@ -104,11 +104,11 @@ public class Movie implements Serializable {
         this.title = title;
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
 

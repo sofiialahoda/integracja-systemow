@@ -25,6 +25,16 @@ public class MovieController {
         return repository.findOne(id);
     }
 
+    @RequestMapping("/movies/{id}")
+    public Movie movieById(@PathVariable("id") String id) {
+        return repository.findOne(id);
+    }
+
+    @RequestMapping("/movies/drop")
+    public void dropMovies() {
+        repository.deleteAll();
+    }
+
     @RequestMapping("/movies")
     public MovieList moviesListSelect(@RequestParam(required = false, defaultValue = "ALL") EMovieSpecifications filter,
                                       @RequestParam(required = false) String value,
