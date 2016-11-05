@@ -29,11 +29,6 @@ public class MovieController {
         return repository.findOne(id);
     }
 
-    @RequestMapping("/movies/{id}")
-    public Movie movieById(@PathVariable("id") String id) {
-        return repository.findOne(id);
-    }
-
     @RequestMapping("/movies/init")
     public void initMovies() {
         listener.init();
