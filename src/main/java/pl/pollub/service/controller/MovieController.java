@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
+import pl.pollub.service.ApplicationMoviesListener;
 import pl.pollub.service.model.Movie;
 import pl.pollub.service.model.MovieList;
 import pl.pollub.service.repository.EMovieSpecifications;
@@ -20,6 +21,9 @@ public class MovieController {
     @Autowired
     private MovieRepository repository;
 
+    @Autowired
+    private ApplicationMoviesListener listener;
+
     @RequestMapping(value = "/movies/{id}", method = RequestMethod.GET)
     public Movie movie(@PathVariable("id") String id) {
         return repository.findOne(id);
@@ -28,6 +32,11 @@ public class MovieController {
     @RequestMapping("/movies/{id}")
     public Movie movieById(@PathVariable("id") String id) {
         return repository.findOne(id);
+    }
+
+    @RequestMapping("/movies/init")
+    public void initMovies() {
+        listener.init();
     }
 
     @RequestMapping("/movies/drop")

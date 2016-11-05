@@ -24,6 +24,10 @@ public class ApplicationMoviesListener implements ApplicationListener<Applicatio
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
+        init();
+    }
+
+    public void init() {
         if (repository.count() == 0) {
             try {
                 InputStream stream = getClass().getClassLoader().getResourceAsStream("ids.file");
