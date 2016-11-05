@@ -20,11 +20,6 @@ public class MovieController {
     @Autowired
     private MovieRepository repository;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String home() {
-        return "index";
-    }
-
     @RequestMapping(value = "/movies/{id}", method = RequestMethod.GET)
     public Movie movie(@PathVariable("id") String id) {
         return repository.findOne(id);
@@ -33,7 +28,7 @@ public class MovieController {
     @RequestMapping("/movies")
     public MovieList moviesListSelect(@RequestParam(required = false, defaultValue = "ALL") EMovieSpecifications filter,
                                       @RequestParam(required = false) String value,
-                                      @RequestParam(required = false) String direction,
+                                      @RequestParam(required = false) Sort.Direction direction,
                                       @RequestParam(required = false) String order,
                                       @RequestParam(required = false) Integer page,
                                       @RequestParam(required = false) Integer size) {
@@ -60,7 +55,7 @@ public class MovieController {
         return new MovieList(repository.findAll(resolve(filter, value)));
     }
 
-    private boolean isSortable(String direction, String order) {
+    private boolean isSortable(Sort.Direction direction, String order) {
         return direction != null && order != null;
     }
 

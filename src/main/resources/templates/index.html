@@ -14,21 +14,40 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <title>Politechnika Lubelska - Integracja Systemów</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
 </head>
 <body>
 <div class="container">
     <div class="page-header">
         <h1>Politechnika Lubelska - Integracja Systemów</h1>
-		<span>TBD: Update Documentation</span>
+        <form action="/movies" method="get">
+            <span>Filter:</span>
+            <select name="filter">
+                <option value="ALL">All</option>
+                <option value="HAS_AWARDS">Has Awards</option>
+                <option value="HAS_POSTER">Has Poster</option>
+                <option value="HAS_GENRE">Has Genre</option>
+                <option value="HAS_DIRECTOR">Has Director</option>
+                <option value="HAS_WRITER">Has Writer</option>
+                <option value="HAS_LANGUAGE">Has Language</option>
+                <option value="HAS_COUNTRY">Has Country</option>
+                <option value="HAS_YEAR">Has Year</option>
+                <option value="HAS_TITLE">Has Title</option>
+                <option value="HAS_ACTORS">Has Actors</option>
+            </select>
+            <br/>
+            <span>Value:</span><input value="null" name="value" type="text"/>
+            <br/>
+            <button type="submit">Submit</button>
+        </form>
     </div>
 </div>
 
