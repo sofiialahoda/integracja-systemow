@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import pl.pollub.service.ApplicationMoviesListener;
+import pl.pollub.service.ex.MovieNotFoundException;
 import pl.pollub.service.model.Movie;
 import pl.pollub.service.model.MovieList;
 import pl.pollub.service.repository.EMovieSpecifications;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import static pl.pollub.service.repository.SpecificationResolver.resolve;
 
+@ControllerAdvice
 @RestController
 public class MovieController {
 
@@ -25,8 +27,11 @@ public class MovieController {
     private ApplicationMoviesListener listener;
 
     @RequestMapping(value = "/movies/{id}", method = RequestMethod.GET)
-    public Movie movie(@PathVariable("id") String id) {
-        return repository.findOne(id);
+    public Movie movie(@PathVariable("id") String id) throws MovieNotFoundException {
+        Movie movie = repository.findOne(id);
+        if (movie == null)
+            throw new MovieNotFoundException(id);
+        return movie;
     }
 
     @RequestMapping("/movies/init")
